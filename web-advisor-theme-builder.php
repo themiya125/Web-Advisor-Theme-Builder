@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Web Advisor Theme Builder
- * Description: Minimal plugin to register Gutenberg blocks with CSS CodeMirror editor.
+ * Description: This plugin provides (Section Block , Div Block, Container Block, Button Block, Home Slider Block)
  * Version: 1.1.0
  * Author: Themiya Jayakodi
  */

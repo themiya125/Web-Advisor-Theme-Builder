@@ -9,3 +9,82 @@
 body{
 	overflow-x:hidden;	
 }
+/* Home Slider Wrapper */
+.wab-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Each slide */
+.wab-slide {
+    width: 100%;
+    min-height: 400px; /* Adjust height as needed */
+    background-size: cover;
+    background-position: center;
+    display: none; /* JS will show the active slide */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Slide content container */
+.wab-slide-content {
+    text-align: center;
+    color: #ffffff; /* All text white */
+}
+
+/* Main title */
+.wab-slide-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* Subtitle */
+.wab-slide-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Slide button */
+.wab-slide-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #0073aa; /* Default button color */
+    color: #ffffff; /* Text color */
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Navigation arrows */
+.wab-prev,
+.wab-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.wab-prev {
+    left: 20px;
+}
+
+.wab-next {
+    right: 20px;
+}
+
+/* Optional: Hover effect on arrows */
+.wab-prev:hover,
+.wab-next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
