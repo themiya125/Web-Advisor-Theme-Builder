@@ -53,3 +53,20 @@ function wab_enqueue_frontend_styles() {
     }
 }
 add_action( 'enqueue_block_assets', 'wab_enqueue_frontend_styles' );
+
+
+/**
+ * Plugin Update Checker
+ */
+require plugin_dir_path(__FILE__) . 'plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$wabUpdateChecker = PucFactory::buildUpdateChecker(
+    'https://github.com/themiya125/Web-Advisor-Theme-Builder', 
+    __FILE__,
+    'web-advisor-theme-builder'
+);
+
+
+$wabUpdateChecker->setBranch('main');
