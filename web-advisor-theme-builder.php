@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Web Advisor Theme Builder
  * Description: This plugin provides (Section Block , Div Block, Container Block, Button Block, Home Slider Block)
- * Version: 1.7
+ * Version: 1.7.1
  * Author: Themiya Jayakodi
  */
 
