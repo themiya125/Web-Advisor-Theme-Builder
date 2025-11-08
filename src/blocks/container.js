@@ -79,7 +79,7 @@ const CustomCSSEditor = ({ value, onChange }) => {
    Container Block Registration
 ----------------------------- */
 
-registerBlockType('wab/container-block', {
+registerBlockType('web-advisor/container-block', {
     title: 'Container Block',
     icon: 'screenoptions',
     category: 'layout',

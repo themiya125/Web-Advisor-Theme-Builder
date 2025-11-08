@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Web Advisor Theme Builder
  * Description: This plugin provides (Section Block , Div Block, Container Block, Button Block, Home Slider Block)
- * Version: 1.1.0
+ * Version: 1.0.3
  * Author: Themiya Jayakodi
  */
 
@@ -163,6 +163,7 @@ add_action('enqueue_block_assets', 'wab_enqueue_frontend_styles');
 /**
  * ✅ Update Checker (GitHub)
  */
+
 require plugin_dir_path(__FILE__) . 'plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 

@@ -9,7 +9,8 @@ import {
     PanelBody,
     Button,
     TextControl,
-    ToggleControl
+    ToggleControl,
+    SelectControl
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
@@ -17,16 +18,18 @@ import { Fragment } from '@wordpress/element';
    Home Page Slider Block
 ----------------------------- */
 
-registerBlockType('wab/home-slider', {
+registerBlockType('web-advisor/home-slider', {
     title: 'Home Page Slider',
     icon: 'images-alt2',
     category: 'layout',
     attributes: {
         slides: { type: 'array', default: [] },
+        transitionEffect: { type: 'string', default: 'slide' }, // slide | fade
+        navIconStyle: { type: 'string', default: 'bootstrap' }, // bootstrap | material | fontawesome
     },
 
     edit: ({ attributes, setAttributes }) => {
-        const { slides } = attributes;
+        const { slides, transitionEffect, navIconStyle } = attributes;
 
         const addSlide = () => {
             const newSlide = {
@@ -37,7 +40,7 @@ registerBlockType('wab/home-slider', {
                 isExternal: false,
                 image: '',
             };
-            setAttributes({ slides: [...slides, newSlide] });
+            setAttributes({ slides: [newSlide, ...slides] });
         };
 
         const updateSlide = (index, key, value) => {
@@ -55,6 +58,7 @@ registerBlockType('wab/home-slider', {
             <div {...useBlockProps()} className="web-advisor-slider-edit">
                 <InspectorControls>
                     <PanelBody title="Slider Settings" initialOpen={true}>
+                        {/* Add Slide Button */}
                         <Button
                             isPrimary
                             onClick={addSlide}
@@ -63,19 +67,43 @@ registerBlockType('wab/home-slider', {
                             + Add New Slide
                         </Button>
 
+                        {/* Transition Effect */}
+                        <SelectControl
+                            label="Transition Effect"
+                            value={transitionEffect}
+                            options={[
+                                { label: 'Slide (Default)', value: 'slide' },
+                                { label: 'Fade', value: 'fade' },
+                            ]}
+                            onChange={(val) => setAttributes({ transitionEffect: val })}
+                        />
+
+                        {/* Navigation Icon Style */}
+                        <SelectControl
+                            label="Navigation Icon Style"
+                            value={navIconStyle}
+                            options={[
+                                { label: 'Bootstrap Default', value: 'bootstrap' },
+                                { label: 'Google Material Icons', value: 'material' },
+                                { label: 'Font Awesome', value: 'fontawesome' },
+                            ]}
+                            onChange={(val) => setAttributes({ navIconStyle: val })}
+                        />
+
                         {slides.map((slide, index) => (
                             <div
                                 key={index}
                                 style={{
-                                    marginBottom: '20px',
+                                    marginBottom: '25px',
                                     borderBottom: '1px solid #ddd',
-                                    paddingBottom: '10px',
+                                    paddingBottom: '15px',
                                 }}
                             >
                                 <p>
                                     <strong>Slide {index + 1}</strong>
                                 </p>
 
+                                {/* Image Upload with Preview */}
                                 <MediaUploadCheck>
                                     <MediaUpload
                                         onSelect={(media) =>
@@ -83,15 +111,35 @@ registerBlockType('wab/home-slider', {
                                         }
                                         allowedTypes={['image']}
                                         render={({ open }) => (
-                                            <Button
-                                                onClick={open}
-                                                isSecondary
-                                                style={{ marginBottom: '10px' }}
-                                            >
-                                                {slide.image
-                                                    ? 'Change Image'
-                                                    : 'Upload Image'}
-                                            </Button>
+                                            <div>
+                                                {slide.image && (
+                                                    <div
+                                                        style={{
+                                                            marginBottom: '10px',
+                                                            textAlign: 'center',
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={slide.image}
+                                                            alt="Slide preview"
+                                                            style={{
+                                                                maxWidth: '100%',
+                                                                borderRadius: '5px',
+                                                                border: '1px solid #ccc',
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
+                                                <Button
+                                                    onClick={open}
+                                                    isSecondary
+                                                    style={{ marginBottom: '10px' }}
+                                                >
+                                                    {slide.image
+                                                        ? 'Change Image'
+                                                        : 'Upload Image'}
+                                                </Button>
+                                            </div>
                                         )}
                                     />
                                 </MediaUploadCheck>
@@ -161,22 +209,72 @@ registerBlockType('wab/home-slider', {
                         textAlign: 'center',
                     }}
                 >
-                    <p>Bootstrap Carousel Preview (Front-end View)</p>
+                    <p>Slider Preview — {transitionEffect.toUpperCase()} Transition</p>
                     {slides.length === 0 && <p>No slides added yet.</p>}
+                    {slides.length > 0 && (
+                        <div style={{ display: 'flex', gap: '10px', overflowX: 'auto' }}>
+                            {slides.map((slide, i) => (
+                                <div
+                                    key={i}
+                                    style={{
+                                        width: '120px',
+                                        height: '80px',
+                                        background: '#333',
+                                        border: '1px solid #555',
+                                        borderRadius: '5px',
+                                        backgroundImage: slide.image
+                                            ? `url(${slide.image})`
+                                            : 'none',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                    }}
+                                ></div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         );
     },
 
     save: ({ attributes }) => {
-        const { slides } = attributes;
+        const { slides, transitionEffect, navIconStyle } = attributes;
         const blockProps = useBlockProps.save();
+
+        // Determine carousel classes based on transition effect
+        const carouselClass =
+            transitionEffect === 'fade'
+                ? 'web-advisor-slider carousel slide carousel-fade'
+                : 'web-advisor-slider carousel slide';
+
+        // Icon HTML based on style
+        const getPrevIcon = () => {
+            switch (navIconStyle) {
+                case 'material':
+                    return '<span class="material-icons" style="font-size:32px;">arrow_back</span>';
+                case 'fontawesome':
+                    return '<i class="fa-solid fa-chevron-left" style="font-size:28px;"></i>';
+                default:
+                    return '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+            }
+        };
+
+        const getNextIcon = () => {
+            switch (navIconStyle) {
+                case 'material':
+                    return '<span class="material-icons" style="font-size:32px;">arrow_forward</span>';
+                case 'fontawesome':
+                    return '<i class="fa-solid fa-chevron-right" style="font-size:28px;"></i>';
+                default:
+                    return '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+            }
+        };
 
         return (
             <div {...blockProps}>
                 <div
                     id="wabBootstrapCarousel"
-                    className="web-advisor-slider carousel slide"
+                    className={carouselClass}
                     data-bs-ride="carousel"
                     data-bs-interval="3000"
                 >
@@ -207,7 +305,7 @@ registerBlockType('wab/home-slider', {
                                     backgroundImage: `url(${slide.image})`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    minHeight: '400px',
+                                    minHeight: '900px',
                                     position: 'relative',
                                     color: '#fff',
                                 }}
@@ -249,34 +347,31 @@ registerBlockType('wab/home-slider', {
                         type="button"
                         data-bs-target="#wabBootstrapCarousel"
                         data-bs-slide="prev"
-                    >
-                        <span
-                            className="carousel-control-prev-icon"
-                            aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-
+                        dangerouslySetInnerHTML={{ __html: getPrevIcon() }}
+                    />
                     <button
                         className="carousel-control-next"
                         type="button"
                         data-bs-target="#wabBootstrapCarousel"
                         data-bs-slide="next"
-                    >
-                        <span
-                            className="carousel-control-next-icon"
-                            aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
+                        dangerouslySetInnerHTML={{ __html: getNextIcon() }}
+                    />
                 </div>
 
-                {/* Bootstrap CDN */}
+                {/* External Libraries */}
                 <link
                     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
                     rel="stylesheet"
                 />
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                <link
+                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                    rel="stylesheet"
+                />
+                <link
+                    rel="stylesheet"
+                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+                />
             </div>
         );
     },

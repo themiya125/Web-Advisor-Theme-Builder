@@ -79,7 +79,7 @@ const CustomCSSEditor = ({ value, onChange }) => {
    Section Block Registration
 ----------------------------- */
 
-registerBlockType('wab/section-block', {
+registerBlockType('web-advisor/section-block', {
     title: 'Section Block',
     icon: 'welcome-write-blog',
     category: 'layout',

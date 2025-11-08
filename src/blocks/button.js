@@ -18,7 +18,7 @@ const COLORS = [
     { name: 'White', color: '#ffffff' },
 ];
 
-registerBlockType('wab/button-block', {
+registerBlockType('web-advisor/button-block', {
     title: 'Button Block',
     icon: 'button',
     category: 'layout',

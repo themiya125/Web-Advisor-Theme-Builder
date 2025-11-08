@@ -79,7 +79,7 @@ const CustomCSSEditor = ({ value, onChange }) => {
    Div Block Registration
 ----------------------------- */
 
-registerBlockType('wab/div-block', {
+registerBlockType('web-advisor/div-block', {
     title: 'Div Block',
     icon: 'editor-code',
     category: 'layout',
