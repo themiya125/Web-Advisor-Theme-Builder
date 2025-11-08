@@ -305,7 +305,7 @@ registerBlockType('web-advisor/home-slider', {
                                     backgroundImage: `url(${slide.image})`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    minHeight: '900px',
+                                    minHeight: '550px',
                                     position: 'relative',
                                     color: '#fff',
                                 }}
