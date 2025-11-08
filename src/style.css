@@ -1,4 +1,4 @@
-.wp-block-web-advisor-section-block, .wp-block-web-advisor-home-slider{
+.wp-block-web-advisor-section-block{
 	position: relative;
     width: 100vw;
     left: 50%;
@@ -9,6 +9,11 @@
 .wp-block-web-advisor-home-slider .btn-primary {
     max-width: 200px;
     margin: auto;
+}
+.wp-block-web-advisor-container-block{
+    max-width: 1300px;
+    margin: auto;
+    padding: 0 15px;
 }
 .wp-block-web-advisor-home-slider .carousel-caption {
     bottom: auto !important;
