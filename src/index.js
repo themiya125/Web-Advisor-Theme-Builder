@@ -12,6 +12,7 @@ if (typeof wabProData !== 'undefined' && wabProData.licenseValid) {
     import('./blocks/owl-slider');
     import('./blocks/social-media');
     import('./blocks/cookie-policy');
+    import('./blocks/contact-info');
   
 } else {
     console.warn("⚠️ Web Advisor Pro features are locked. Activate your license to unlock all blocks!");
