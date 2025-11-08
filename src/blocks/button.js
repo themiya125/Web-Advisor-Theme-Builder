@@ -19,7 +19,7 @@ const COLORS = [
 ];
 
 registerBlockType('web-advisor/button-block', {
-    title: 'Button Block',
+    title: 'Button Block (Web Advisor)',
     icon: 'button',
     category: 'layout',
     attributes: {

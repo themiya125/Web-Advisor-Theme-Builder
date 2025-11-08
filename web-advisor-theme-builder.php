@@ -160,6 +160,44 @@ function wab_enqueue_frontend_styles() {
 }
 add_action('enqueue_block_assets', 'wab_enqueue_frontend_styles');
 
+
+
+function web_advisor_enqueue_block_assets() {
+    // Enqueue for both frontend and editor
+    wp_enqueue_style(
+        'web-advisor-bootstrap',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+        array(),
+        '5.3.3'
+    );
+
+    wp_enqueue_script(
+        'web-advisor-bootstrap',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+        array('jquery'),
+        '5.3.3',
+        true
+    );
+
+    // Material Icons
+    wp_enqueue_style(
+        'web-advisor-material-icons',
+        'https://fonts.googleapis.com/icon?family=Material+Icons',
+        array(),
+        null
+    );
+
+    // Font Awesome
+    wp_enqueue_style(
+        'web-advisor-fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css',
+        array(),
+        '6.5.0'
+    );
+}
+add_action('enqueue_block_assets', 'web_advisor_enqueue_block_assets');
+
+
 /**
  * ✅ Update Checker (GitHub)
  */
@@ -173,3 +211,7 @@ $wabUpdateChecker = PucFactory::buildUpdateChecker(
     'web-advisor-theme-builder'
 );
 $wabUpdateChecker->setBranch('main');
+
+
+
+

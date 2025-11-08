@@ -80,7 +80,7 @@ const CustomCSSEditor = ({ value, onChange }) => {
 ----------------------------- */
 
 registerBlockType('web-advisor/container-block', {
-    title: 'Container Block',
+    title: 'Container Block (Web Advisor)',
     icon: 'screenoptions',
     category: 'layout',
     attributes: {
