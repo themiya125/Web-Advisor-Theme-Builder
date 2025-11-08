@@ -10,7 +10,8 @@ import {
     Button,
     TextControl,
     ToggleControl,
-    SelectControl
+    SelectControl,
+    RangeControl
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
@@ -19,17 +20,18 @@ import { Fragment } from '@wordpress/element';
 ----------------------------- */
 
 registerBlockType('web-advisor/home-slider', {
-    title: 'Home Page Slider',
+    title: 'Home Page Slider (Web Advisor)',
     icon: 'images-alt2',
     category: 'layout',
     attributes: {
         slides: { type: 'array', default: [] },
         transitionEffect: { type: 'string', default: 'slide' }, // slide | fade
         navIconStyle: { type: 'string', default: 'bootstrap' }, // bootstrap | material | fontawesome
+        autoplayTimeout: { type: 'number', default: 5000 }, // added new attribute
     },
 
     edit: ({ attributes, setAttributes }) => {
-        const { slides, transitionEffect, navIconStyle } = attributes;
+        const { slides, transitionEffect, navIconStyle, autoplayTimeout } = attributes;
 
         const addSlide = () => {
             const newSlide = {
@@ -89,6 +91,17 @@ registerBlockType('web-advisor/home-slider', {
                             ]}
                             onChange={(val) => setAttributes({ navIconStyle: val })}
                         />
+
+                        {/* Autoplay Timeout */}
+                        <RangeControl
+                            label="Autoplay Timeout (ms)"
+                            value={autoplayTimeout}
+                            onChange={(val) => setAttributes({ autoplayTimeout: val })}
+                            min={1000}
+                            max={10000}
+                            step={500}
+                        />
+                     
 
                         {slides.map((slide, index) => (
                             <div
@@ -238,7 +251,7 @@ registerBlockType('web-advisor/home-slider', {
     },
 
     save: ({ attributes }) => {
-        const { slides, transitionEffect, navIconStyle } = attributes;
+        const { slides, transitionEffect, navIconStyle, autoplayTimeout } = attributes;
         const blockProps = useBlockProps.save();
 
         // Determine carousel classes based on transition effect
@@ -276,7 +289,7 @@ registerBlockType('web-advisor/home-slider', {
                     id="wabBootstrapCarousel"
                     className={carouselClass}
                     data-bs-ride="carousel"
-                    data-bs-interval="3000"
+                    data-bs-interval={autoplayTimeout}
                 >
                     {/* Carousel Indicators */}
                     <div className="carousel-indicators">
@@ -357,8 +370,6 @@ registerBlockType('web-advisor/home-slider', {
                         dangerouslySetInnerHTML={{ __html: getNextIcon() }}
                     />
                 </div>
-
-               
             </div>
         );
     },

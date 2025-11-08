@@ -1,439 +1,316 @@
+/**
+ * Owl Carousel Parent + Slide child block with Font Awesome nav icons
+ */
+
 import { registerBlockType } from '@wordpress/blocks';
 import {
-    useBlockProps,
-    InspectorControls,
-    MediaUpload,
-    MediaUploadCheck
+  useBlockProps,
+  InnerBlocks,
+  InspectorControls,
 } from '@wordpress/block-editor';
 import {
-    PanelBody,
-    Button,
-    TextControl,
-    ToggleControl,
-    SelectControl,
-    RangeControl
+  PanelBody,
+  RangeControl,
+  ToggleControl,
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
-/* -----------------------------
-   Load Owl Carousel Styles in Editor
------------------------------ */
-const loadOwlStylesForEditor = () => {
-    if (!document.querySelector('#owl-carousel-css')) {
-        const link = document.createElement('link');
-        link.id = 'owl-carousel-css';
-        link.rel = 'stylesheet';
-        link.href =
-            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css';
-        document.head.appendChild(link);
-    }
-    if (!document.querySelector('#owl-carousel-theme-css')) {
-        const link = document.createElement('link');
-        link.id = 'owl-carousel-theme-css';
-        link.rel = 'stylesheet';
-        link.href =
-            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css';
-        document.head.appendChild(link);
-    }
-};
+/* ---------------------------
+   Child: owl-carousel-slide
+--------------------------- */
+registerBlockType('web-advisor/owl-carousel-slide', {
+  title: 'Owl Slide',
+  icon: 'format-image',
+  category: 'layout',
+  parent: ['web-advisor/owl-carousel'],
+  supports: { reusable: false },
+  edit: () => {
+    const blockProps = useBlockProps({
+      style: {
+        border: '1px dashed #ddd',
+        padding: '12px',
+        borderRadius: '6px',
+        background: '#fff',
+      },
+    });
 
-/* -----------------------------
-   Block Registration
------------------------------ */
-registerBlockType('web-advisor/owl-simple-slider', {
-    title: 'Owl Simple Slider (Web Advisor)',
-    icon: 'images-alt2',
-    category: 'layout',
-    attributes: {
-        slides: { type: 'array', default: [] },
-        transitionEffect: { type: 'string', default: 'slide' }, // slide | fade
-        slidesDesktop: { type: 'number', default: 3 },
-        slidesTablet: { type: 'number', default: 2 }, // tablet <= 991px
-        slidesMobile: { type: 'number', default: 1 },
-        autoplay: { type: 'boolean', default: false },
-        loop: { type: 'boolean', default: true },
-        autoplayTimeout: { type: 'number', default: 5000 },
-        showDots: { type: 'boolean', default: true },
-        showNav: { type: 'boolean', default: true },
-    },
+    return (
+      <div {...blockProps}>
+        <div style={{ fontSize: '13px', marginBottom: '8px', color: '#333' }}>
+          🖼️ Slide content
+        </div>
+        <div
+          style={{
+            border: '1px dashed #eee',
+            padding: '8px',
+            borderRadius: '4px',
+          }}
+        >
+          <InnerBlocks
+            allowedBlocks={[
+              'core/paragraph',
+              'core/image',
+              'core/heading',
+              'core/buttons',
+              'core/button',
+              'core/list',
+              'core/cover',
+              'web-advisor/div-block',
+            ]}
+            templateLock={false}
+          />
+        </div>
+      </div>
+    );
+  },
+  save: () => {
+    const blockProps = useBlockProps.save();
+    return (
+      <div {...blockProps} className="wab-owl-slide">
+        <InnerBlocks.Content />
+      </div>
+    );
+  },
+});
 
-    edit: ({ attributes, setAttributes }) => {
-        const {
-            slides,
-            transitionEffect,
-            slidesDesktop,
-            slidesTablet,
-            slidesMobile,
-            autoplay,
-            loop,
-            autoplayTimeout,
-            showDots,
-            showNav,
-        } = attributes;
+/* ---------------------------
+   Parent: owl-carousel
+--------------------------- */
+registerBlockType('web-advisor/owl-carousel', {
+  title: 'Owl Carousel Slider (Web Advisor)',
+  icon: 'images-alt2',
+  category: 'layout',
+  attributes: {
+    itemsDesktop: { type: 'number', default: 3 },
+    itemsTablet: { type: 'number', default: 2 },
+    itemsMobile: { type: 'number', default: 1 },
+    autoplay: { type: 'boolean', default: true },
+    loop: { type: 'boolean', default: true },
+    margin: { type: 'number', default: 10 },
+    autoplayTimeout: { type: 'number', default: 3000 },
+    showNav: { type: 'boolean', default: true },
+    showDots: { type: 'boolean', default: true },
+  },
 
-        loadOwlStylesForEditor();
+  edit: ({ attributes, setAttributes }) => {
+    const {
+      itemsDesktop,
+      itemsTablet,
+      itemsMobile,
+      autoplay,
+      loop,
+      margin,
+      autoplayTimeout,
+      showNav,
+      showDots,
+    } = attributes;
 
-        const addSlide = () => {
-            const newSlide = {
-                title: 'Main Title',
-                subtitle: 'Sub Title',
-                buttonText: 'Learn More',
-                buttonUrl: '',
-                isExternal: false,
-                image: '',
-            };
-            setAttributes({ slides: [newSlide, ...slides] });
-        };
+    const parentBlockProps = useBlockProps({
+      className: 'wab-owl-parent',
+      style: {
+        border: '2px dashed #0073aa',
+        padding: '12px',
+        borderRadius: '6px',
+      },
+    });
 
-        const updateSlide = (index, key, value) => {
-            const updated = [...slides];
-            updated[index] = { ...updated[index], [key]: value };
-            setAttributes({ slides: updated });
-        };
+    return (
+      <div {...parentBlockProps}>
+        <InspectorControls>
+          <PanelBody title="Carousel Settings" initialOpen={true}>
+            <RangeControl
+              label="Items on Desktop (≥992px)"
+              value={itemsDesktop}
+              onChange={(val) => setAttributes({ itemsDesktop: val })}
+              min={1}
+              max={6}
+            />
+            <RangeControl
+              label="Items on Tablet (≤991px)"
+              value={itemsTablet}
+              onChange={(val) => setAttributes({ itemsTablet: val })}
+              min={1}
+              max={5}
+            />
+            <RangeControl
+              label="Items on Mobile (≤767px)"
+              value={itemsMobile}
+              onChange={(val) => setAttributes({ itemsMobile: val })}
+              min={1}
+              max={3}
+            />
+            <RangeControl
+              label="Margin between slides (px)"
+              value={margin}
+              onChange={(val) => setAttributes({ margin: val })}
+              min={0}
+              max={50}
+            />
+            <RangeControl
+              label="Autoplay Timeout (ms)"
+              value={autoplayTimeout}
+              onChange={(val) => setAttributes({ autoplayTimeout: val })}
+              min={500}
+              max={10000}
+              step={100}
+            />
+            <ToggleControl
+              label="Autoplay"
+              checked={autoplay}
+              onChange={(val) => setAttributes({ autoplay: val })}
+            />
+            <ToggleControl
+              label="Loop"
+              checked={loop}
+              onChange={(val) => setAttributes({ loop: val })}
+            />
+            <ToggleControl
+              label="Show Navigation Arrows"
+              checked={showNav}
+              onChange={(val) => setAttributes({ showNav: val })}
+            />
+            <ToggleControl
+              label="Show Dots"
+              checked={showDots}
+              onChange={(val) => setAttributes({ showDots: val })}
+            />
+          </PanelBody>
+        </InspectorControls>
 
-        const removeSlide = (index) => {
-            const updated = slides.filter((_, i) => i !== index);
-            setAttributes({ slides: updated });
-        };
+        <div style={{ marginBottom: '10px', fontSize: '14px' }}>
+          🦉 Owl Carousel — add slides using the block inserter (inside the carousel).
+        </div>
 
-        return (
-            <div {...useBlockProps()} className="web-advisor-owl-slider-edit">
-                <InspectorControls>
-                    <PanelBody title="Slider Settings" initialOpen={true}>
-                        <Button
-                            isPrimary
-                            onClick={addSlide}
-                            style={{ marginBottom: '10px' }}
-                        >
-                            + Add New Slide
-                        </Button>
+        <div
+          style={{
+            background: '#f8f9fa',
+            padding: '8px',
+            borderRadius: '4px',
+          }}
+        >
+          <InnerBlocks
+            allowedBlocks={['web-advisor/owl-carousel-slide']}
+            templateLock={false}
+            renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
+          />
+        </div>
 
-                        <RangeControl
-                            label="Slides (Desktop)"
-                            value={slidesDesktop}
-                            onChange={(val) => setAttributes({ slidesDesktop: val })}
-                            min={1}
-                            max={6}
-                        />
-                        <RangeControl
-                            label="Slides (Tablet ≤ 991px)"
-                            value={slidesTablet}
-                            onChange={(val) => setAttributes({ slidesTablet: val })}
-                            min={1}
-                            max={6}
-                        />
-                        <RangeControl
-                            label="Slides (Mobile)"
-                            value={slidesMobile}
-                            onChange={(val) => setAttributes({ slidesMobile: val })}
-                            min={1}
-                            max={6}
-                        />
+        <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+          Each slide is independent — click a slide to edit its content.
+        </div>
+      </div>
+    );
+  },
 
-                        <SelectControl
-                            label="Transition Effect"
-                            value={transitionEffect}
-                            options={[
-                                { label: 'Slide (Default)', value: 'slide' },
-                                { label: 'Fade', value: 'fade' },
-                            ]}
-                            onChange={(val) => setAttributes({ transitionEffect: val })}
-                        />
+  save: ({ attributes }) => {
+    const {
+      itemsDesktop,
+      itemsTablet,
+      itemsMobile,
+      autoplay,
+      loop,
+      margin,
+      autoplayTimeout,
+      showNav,
+      showDots,
+    } = attributes;
 
-                        <ToggleControl
-                            label="Autoplay"
-                            checked={autoplay}
-                            onChange={(val) => setAttributes({ autoplay: val })}
-                        />
+    const blockProps = useBlockProps.save();
 
-                        <ToggleControl
-                            label="Loop"
-                            checked={loop}
-                            onChange={(val) => setAttributes({ loop: val })}
-                        />
+    return (
+      <div {...blockProps}>
+        <div
+          className="owl-carousel wab-owl-carousel"
+          data-items-desktop={itemsDesktop}
+          data-items-tablet={itemsTablet}
+          data-items-mobile={itemsMobile}
+          data-autoplay={autoplay}
+          data-loop={loop}
+          data-margin={margin}
+          data-autoplay-timeout={autoplayTimeout}
+          data-show-nav={showNav}
+          data-show-dots={showDots}
+        >
+          <InnerBlocks.Content />
+        </div>
 
-                        <RangeControl
-                            label="Autoplay timeout (ms)"
-                            value={autoplayTimeout}
-                            onChange={(val) => setAttributes({ autoplayTimeout: val })}
-                            min={1000}
-                            max={10000}
-                            step={500}
-                        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            (function($){
+              $(document).ready(function(){
+                $('.wab-owl-carousel').each(function(){
+                  var $carousel = $(this);
+                  var desktop = parseInt($carousel.data('items-desktop')) || 3;
+                  var tablet = parseInt($carousel.data('items-tablet')) || 2;
+                  var mobile = parseInt($carousel.data('items-mobile')) || 1;
+                  var autoplay = $carousel.data('autoplay') == true || $carousel.data('autoplay') == 'true';
+                  var loop = $carousel.data('loop') == true || $carousel.data('loop') == 'true';
+                  var margin = parseInt($carousel.data('margin')) || 10;
+                  var autoplayTimeout = parseInt($carousel.data('autoplay-timeout')) || 3000;
+                  var showNav = $carousel.data('show-nav') == true || $carousel.data('show-nav') == 'true';
+                  var showDots = $carousel.data('show-dots') == true || $carousel.data('show-dots') == 'true';
 
-                        <ToggleControl
-                            label="Show Dots"
-                            checked={showDots}
-                            onChange={(val) => setAttributes({ showDots: val })}
-                        />
+                  if (typeof $carousel.owlCarousel !== 'function') {
+                    console.warn('🦉 Owl Carousel not loaded.');
+                    return;
+                  }
 
-                        <ToggleControl
-                            label="Show Navigation Arrows"
-                            checked={showNav}
-                            onChange={(val) => setAttributes({ showNav: val })}
-                        />
+                  $carousel.owlCarousel({
+                    items: desktop,
+                    margin: margin,
+                    loop: loop,
+                    autoplay: autoplay,
+                    autoplayTimeout: autoplayTimeout,
+                    nav: showNav,
+                    dots: showDots,
+                    navText: [
+                      '<i class="fa-solid fa-chevron-left"></i>',
+                      '<i class="fa-solid fa-chevron-right"></i>'
+                    ],
+                    responsive:{
+                      0:{ items: mobile },
+                      768:{ items: tablet },
+                      992:{ items: desktop }
+                    },
+                    onInitialized: function(){
+                      if (showNav) {
+                        $carousel.find('.owl-nav').css({
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          width: '100%',
+                          position: 'absolute',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          zIndex: 10
+                        });
+                        $carousel.find('.owl-prev, .owl-next').css({
+                          background: 'rgba(0,0,0,0.4)',
+                          color: '#fff',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '18px',
+                          cursor: 'pointer'
+                        });
+                      }
+                    }
+                  });
 
-                        {slides.map((slide, index) => (
-                            <div
-                                key={index}
-                                style={{
-                                    marginBottom: '25px',
-                                    borderBottom: '1px solid #ddd',
-                                    paddingBottom: '15px',
-                                }}
-                            >
-                                <p><strong>Slide {index + 1}</strong></p>
-
-                                <MediaUploadCheck>
-                                    <MediaUpload
-                                        onSelect={(media) => updateSlide(index, 'image', media.url)}
-                                        allowedTypes={['image']}
-                                        render={({ open }) => (
-                                            <div>
-                                                {slide.image && (
-                                                    <div style={{ marginBottom: '10px', textAlign: 'center' }}>
-                                                        <img
-                                                            src={slide.image}
-                                                            alt="Slide preview"
-                                                            style={{
-                                                                maxWidth: '100%',
-                                                                borderRadius: '5px',
-                                                                border: '1px solid #ccc',
-                                                            }}
-                                                        />
-                                                    </div>
-                                                )}
-                                                <Button onClick={open} isSecondary style={{ marginBottom: '10px' }}>
-                                                    {slide.image ? 'Change Image' : 'Upload Image'}
-                                                </Button>
-                                            </div>
-                                        )}
-                                    />
-                                </MediaUploadCheck>
-
-                                <TextControl
-                                    label="Main Title"
-                                    value={slide.title}
-                                    onChange={(val) => updateSlide(index, 'title', val)}
-                                />
-
-                                <TextControl
-                                    label="Sub Title"
-                                    value={slide.subtitle}
-                                    onChange={(val) => updateSlide(index, 'subtitle', val)}
-                                />
-
-                                <TextControl
-                                    label="Button Text"
-                                    value={slide.buttonText}
-                                    onChange={(val) => updateSlide(index, 'buttonText', val)}
-                                />
-
-                                <TextControl
-                                    label="Button URL"
-                                    value={slide.buttonUrl}
-                                    onChange={(val) => updateSlide(index, 'buttonUrl', val)}
-                                />
-
-                                <ToggleControl
-                                    label="Open link in new tab"
-                                    checked={slide.isExternal}
-                                    onChange={(val) => updateSlide(index, 'isExternal', val)}
-                                />
-
-                                <Button
-                                    isDestructive
-                                    onClick={() => removeSlide(index)}
-                                    style={{ marginTop: '10px', background: '#dc3232', color: '#fff' }}
-                                >
-                                    Remove Slide
-                                </Button>
-                            </div>
-                        ))}
-                    </PanelBody>
-                </InspectorControls>
-
-                {/* Editor Preview */}
-                <div
-                    className="web-advisor-slider-preview"
-                    style={{
-                        minHeight: '200px',
-                        background: '#222',
-                        color: '#fff',
-                        padding: '20px',
-                        textAlign: 'center',
-                    }}
-                >
-                    <p>Owl Slider Preview — {transitionEffect.toUpperCase()} Transition</p>
-                    {slides.length === 0 && <p>No slides added yet.</p>}
-                    {slides.length > 0 && (
-                        <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingTop: '10px' }}>
-                            {slides.map((slide, i) => (
-                                <div
-                                    key={i}
-                                    style={{
-                                        width: '180px',
-                                        height: '120px',
-                                        background: '#333',
-                                        border: '1px solid #555',
-                                        borderRadius: '5px',
-                                        backgroundImage: slide.image ? `url(${slide.image})` : 'none',
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                    }}
-                                ></div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
-    },
-
-    save: ({ attributes }) => {
-        const {
-            slides,
-            transitionEffect,
-            slidesDesktop,
-            slidesTablet,
-            slidesMobile,
-            autoplay,
-            loop,
-            autoplayTimeout,
-            showDots,
-            showNav,
-        } = attributes;
-
-        const blockProps = useBlockProps.save();
-
-        return (
-            <div {...blockProps}>
-                <div
-                    className="web-advisor-owl-carousel owl-theme"
-                    data-slides-desktop={slidesDesktop}
-                    data-slides-tablet={slidesTablet}
-                    data-slides-mobile={slidesMobile}
-                    data-transition={transitionEffect}
-                    data-autoplay={autoplay ? 'true' : 'false'}
-                    data-loop={loop ? 'true' : 'false'}
-                    data-autoplay-timeout={autoplayTimeout}
-                    data-show-dots={showDots ? 'true' : 'false'}
-                    data-show-nav={showNav ? 'true' : 'false'}
-                >
-                    {slides.map((slide, index) => (
-                        <div
-                            className="item web-advisor-slide"
-                            key={index}
-                            style={{
-                                backgroundImage: slide.image ? `url(${slide.image})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                minHeight: '500px',
-                                position: 'relative',
-                                color: '#fff',
-                            }}
-                        >
-                            <div
-                                className="web-advisor-slide-inner"
-                                style={{
-                                    position: 'absolute',
-                                    left: '50%',
-                                    top: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: '80%',
-                                    maxWidth: '1100px',
-                                    textAlign: 'center',
-                                    background: 'rgba(0,0,0,0.35)',
-                                    padding: '20px',
-                                    borderRadius: '8px',
-                                }}
-                            >
-                                <h2>{slide.title}</h2>
-                                <p>{slide.subtitle}</p>
-                                {slide.buttonText && (
-                                    <a
-                                        href={slide.buttonUrl || '#'}
-                                        target={slide.isExternal ? '_blank' : undefined}
-                                        rel={slide.isExternal ? 'noopener noreferrer' : undefined}
-                                        style={{
-                                            display: 'inline-block',
-                                            padding: '10px 18px',
-                                            background: '#0d6efd',
-                                            color: '#fff',
-                                            borderRadius: '4px',
-                                            textDecoration: 'none',
-                                        }}
-                                    >
-                                        {slide.buttonText}
-                                    </a>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Owl Carousel CDN */}
-                <link
-                    rel="stylesheet"
-                    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-                />
-                <link
-                    rel="stylesheet"
-                    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
-                />
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
-(function(){
-    function initOwl() {
-        var sliders = document.querySelectorAll('.web-advisor-owl-carousel');
-        if (!sliders.length) return;
-        if (typeof jQuery === 'undefined' || !jQuery.fn.owlCarousel) {
-            setTimeout(initOwl, 250);
-            return;
-        }
-        sliders.forEach(function(slider){
-            if (slider.classList.contains('owl-initialized')) return;
-            var desktop = parseInt(slider.dataset.slidesDesktop) || 3;
-            var tablet = parseInt(slider.dataset.slidesTablet) || 2;
-            var mobile = parseInt(slider.dataset.slidesMobile) || 1;
-            var transition = slider.dataset.transition || 'slide';
-            var autoplay = slider.dataset.autoplay === 'true';
-            var loop = slider.dataset.loop === 'true';
-            var autoplayTimeout = parseInt(slider.dataset.autoplayTimeout) || 5000;
-            var showDots = slider.dataset.showDots === 'true';
-            var showNav = slider.dataset.showNav === 'true';
-            var animateOut = (transition === 'fade') ? 'fadeOut' : '';
-            jQuery(slider).owlCarousel({
-                items: desktop,
-                loop: loop,
-                margin: 0,
-                autoplay: autoplay,
-                autoplayTimeout: autoplayTimeout,
-                autoplayHoverPause: true,
-                dots: showDots,
-                nav: showNav,
-                responsive: {
-                    0: { items: mobile },
-                    768: { items: tablet },
-                    991: { items: tablet },
-                    1200: { items: desktop }
-                },
-                animateOut: animateOut
-            });
-        });
-    }
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        initOwl();
-    } else {
-        document.addEventListener('DOMContentLoaded', initOwl);
-    }
-})();`
-                    }}
-                />
-            </div>
-        );
-    },
+                  // ✅ Force show nav even if one slide
+                  if (showNav) {
+                    $carousel.find('.owl-nav').show();
+                  }
+                });
+              });
+            })(jQuery);
+            `,
+          }}
+        ></script>
+      </div>
+    );
+  },
 });

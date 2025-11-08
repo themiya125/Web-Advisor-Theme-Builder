@@ -1,10 +1,17 @@
 <?php
 /**
  * Plugin Name: Web Advisor Theme Builder
- * Description: This plugin provides (Section Block , Div Block, Container Block, Button Block, Home Slider Block)
- * Version: 1.7.1
+ * Description: Web Advisor Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
+ *
+ * Version: 1.7.2
  * Author: Themiya Jayakodi
+ * Author URI: https://webadvisorlk.com/
+ * Plugin URI: https://github.com/themidev/web-advisor-theme-builder
+ * License: GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: web-advisor-theme-builder
  */
+
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -194,8 +201,30 @@ function web_advisor_enqueue_block_assets() {
         array(),
         '6.5.0'
     );
+     wp_enqueue_style(
+            'owl-carousel',
+            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css',
+            [],
+            '2.3.4'
+        );
+        wp_enqueue_style(
+            'owl-theme-default',
+            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css',
+            [],
+            '2.3.4'
+        );
+        wp_enqueue_script(
+            'owl-carousel',
+            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js',
+            ['jquery'],
+            '2.3.4',
+            true
+        );
+    
 }
+
 add_action('enqueue_block_assets', 'web_advisor_enqueue_block_assets');
+
 
 
 /**

@@ -8,10 +8,10 @@ import {
     Button,
     TextControl
 } from '@wordpress/components';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 
 /* -----------------------------
-   FAQ Collapse Block
+   FAQ Collapse Block (Web Advisor)
 ----------------------------- */
 
 registerBlockType('web-advisor/faq-collapse', {
@@ -27,18 +27,6 @@ registerBlockType('web-advisor/faq-collapse', {
 
     edit: ({ attributes, setAttributes }) => {
         const { faqs } = attributes;
-
-        // Add Bootstrap CSS in editor
-        useEffect(() => {
-            const existingCSS = document.querySelector('link[data-bootstrap-css]');
-            if (!existingCSS) {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
-                link.setAttribute('data-bootstrap-css', 'true');
-                document.head.appendChild(link);
-            }
-        }, []);
 
         const addFAQ = () => {
             const newFAQs = [...faqs, { question: '', answer: '' }];
@@ -153,12 +141,6 @@ registerBlockType('web-advisor/faq-collapse', {
 
         return (
             <div {...blockProps}>
-                {/* Bootstrap CSS */}
-                <link
-                    rel="stylesheet"
-                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-                />
-
                 {/* Accordion */}
                 {faqs.map((faq, index) => (
                     <div className="accordion-item" key={index}>
@@ -184,12 +166,6 @@ registerBlockType('web-advisor/faq-collapse', {
                         </div>
                     </div>
                 ))}
-
-                {/* Bootstrap JS */}
-                <script
-                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-                    defer
-                ></script>
 
                 {/* FAQ Schema for SEO */}
                 <script type="application/ld+json">
