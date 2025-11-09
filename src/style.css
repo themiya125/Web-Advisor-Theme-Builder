@@ -27,6 +27,93 @@
     padding-left: 80px;
     padding-right: 80px;
 }
+.wa-blog-carousel {
+  margin-top: 40px;
+}
+
+/*-----------------------  latest posts     ------------------------------*/
+ .wa-blog-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        margin: 10px;
+      }
+      .wa-blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      }
+      .wa-blog-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+        border-bottom: 1px solid #eee;
+      }
+      .wa-card-content {
+        padding: 16px 18px 22px;
+      }
+      .wa-category {
+        display: inline-block;
+        font-weight: 500;
+        color: #5E3BEA;
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+      .wa-meta {
+        font-size: 13px;
+        color: #666;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 10px;
+        align-items: center;
+      }
+      .wa-meta span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .wa-meta .material-icons {
+        font-size: 16px;
+        color: #5E3BEA;
+      }
+      .wa-blog-card h4 {
+        font-size: 18px;
+        line-height: 1.4;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #111;
+      }
+      .wa-blog-card p.excerpt {
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 12px;
+      }
+      .wa-readmore {
+        font-weight: 500;
+        color: #5E3BEA;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .wa-readmore:hover {
+        color: #311B92;
+      }
+      .wa-readmore .material-icons {
+        font-size: 18px;
+        transition: transform 0.3s;
+      }
+      .wa-readmore:hover .material-icons {
+        transform: translateX(3px);
+      }
+      .owl-nav i.material-icons {
+        color: #fff;
+      }
+      
 body{
 	overflow-x:hidden;	
 }

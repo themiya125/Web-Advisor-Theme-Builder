@@ -3,7 +3,7 @@
  * Plugin Name: Web Advisor Theme Builder
  * Description: Web Advisor Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
  *
- * Version: 1.7.3
+ * Version: 1.7.4
  * Author: Themiya Jayakodi
  * Author URI: https://webadvisorlk.com/
  * Plugin URI: https://github.com/themidev/web-advisor-theme-builder
@@ -168,25 +168,40 @@ function wab_enqueue_frontend_styles() {
 add_action('enqueue_block_assets', 'wab_enqueue_frontend_styles');
 
 
-
 function web_advisor_enqueue_block_assets() {
-    // Enqueue for both frontend and editor
+    // ✅ Bootstrap CSS & JS
     wp_enqueue_style(
         'web-advisor-bootstrap',
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css',
         array(),
-        '5.3.3'
+        '5.3.8'
     );
 
     wp_enqueue_script(
         'web-advisor-bootstrap',
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
-        array('jquery'),
-        '5.3.3',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js',
+        array(), // Bootstrap 5 no longer requires jQuery
+        '5.3.8',
         true
     );
 
-    // Material Icons
+    // ✅ Font Awesome (load once here for both editor & frontend)
+    wp_enqueue_style(
+        'web-advisor-fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
+        array(),
+        '6.7.2'
+    );
+
+    // ✅ Bootstrap Icons (add to both editor & frontend)
+    wp_enqueue_style(
+        'web-advisor-bootstrap-icons',
+        'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
+        array(),
+        '1.11.3'
+    );
+
+    // ✅ Material Icons (load once)
     wp_enqueue_style(
         'web-advisor-material-icons',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -194,42 +209,125 @@ function web_advisor_enqueue_block_assets() {
         null
     );
 
-    // Font Awesome
+    // ✅ Owl Carousel
     wp_enqueue_style(
-        'web-advisor-fontawesome',
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css',
+        'owl-carousel',
+        'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css',
         array(),
-        '6.5.0'
+        '2.3.4'
     );
-     wp_enqueue_style(
-            'owl-carousel',
-            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css',
-            [],
-            '2.3.4'
-        );
-        wp_enqueue_style(
-            'owl-theme-default',
-            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css',
-            [],
-            '2.3.4'
-        );
-        wp_enqueue_script(
-            'owl-carousel',
-            'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js',
-            ['jquery'],
-            '2.3.4',
-            true
-        );
+
+    wp_enqueue_style(
+        'owl-theme-default',
+        'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css',
+        array(),
+        '2.3.4'
+    );
+
+    wp_enqueue_script(
+        'owl-carousel',
+        'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js',
+        array('jquery'),
+        '2.3.4',
+        true
+    );
+
     
 }
-
 add_action('enqueue_block_assets', 'web_advisor_enqueue_block_assets');
 
+//for fetch dyanmic blocks
 
 
-/**
- * ✅ Update Checker (GitHub)
- */
+function web_advisor_render_latest_blog_posts($attributes) {
+    $defaults = [
+        'slidesDesktop' => 3,
+        'slidesTablet'  => 2,
+        'slidesMobile'  => 1,
+        'autoplay'      => true,
+        'loop'          => true,
+        'margin'        => 20,
+        'showNav'       => true,
+        'showDots'      => true,
+        'autoplayTimeout' => 4000,
+    ];
+    $atts = wp_parse_args($attributes, $defaults);
+    $posts = get_posts(['numberposts' => 9, 'post_status' => 'publish']);
+    if (!$posts) return '<p>No posts found.</p>';
+
+    ob_start(); ?>
+
+    <div class="owl-carousel wa-latest-carousel"
+         data-desktop="<?php echo esc_attr($atts['slidesDesktop']); ?>"
+         data-tablet="<?php echo esc_attr($atts['slidesTablet']); ?>"
+         data-mobile="<?php echo esc_attr($atts['slidesMobile']); ?>"
+         data-autoplay="<?php echo $atts['autoplay'] ? 'true' : 'false'; ?>"
+         data-loop="<?php echo (count($posts) > $atts['slidesDesktop'] && $atts['loop']) ? 'true' : 'false'; ?>"
+         data-margin="<?php echo esc_attr($atts['margin']); ?>"
+         data-show-nav="<?php echo $atts['showNav'] ? 'true' : 'false'; ?>"
+         data-show-dots="<?php echo $atts['showDots'] ? 'true' : 'false'; ?>"
+         data-autoplay-timeout="<?php echo esc_attr($atts['autoplayTimeout']); ?>">
+
+      <?php foreach ($posts as $post): 
+        $thumb = get_the_post_thumbnail_url($post->ID, 'large') ?: 'https://via.placeholder.com/800x500?text=No+Image';
+        $excerpt = wp_strip_all_tags(get_the_excerpt($post));
+        $excerpt = wp_trim_words($excerpt, 22);
+      ?>
+        <article class="wa-blog-card">
+          <img src="<?php echo esc_url($thumb); ?>" alt="">
+          <div class="wa-card-content">
+            <?php
+            $cats = get_the_category($post->ID);
+            if (!empty($cats)) {
+              echo '<span class="wa-category">' . esc_html($cats[0]->name) . '</span>';
+            }
+            ?>
+            <div class="wa-meta">
+              <span><i class="material-icons">person</i><?php echo esc_html(get_the_author_meta('display_name', $post->post_author)); ?></span>
+              <span><i class="material-icons">calendar_month</i><?php echo esc_html(get_the_date('F j, Y', $post)); ?></span>
+              <span><i class="material-icons">access_time</i>3 Min Read</span>
+              <span><i class="material-icons">comment</i>5 Comments</span>
+            </div>
+            <h4><?php echo esc_html(get_the_title($post)); ?></h4>
+            <p class="excerpt"><?php echo esc_html($excerpt); ?></p>
+            <a href="<?php echo esc_url(get_permalink($post)); ?>" class="wa-readmore">
+              Read More <i class="material-icons">arrow_forward</i>
+            </a>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+
+    <script>
+    jQuery(function($){
+      var $carousel = $('.wa-latest-carousel');
+      if ($carousel.length && typeof $.fn.owlCarousel === 'function') {
+        $carousel.owlCarousel({
+          margin: parseInt($carousel.data('margin')),
+          loop: $carousel.data('loop'),
+          autoplay: $carousel.data('autoplay'),
+          autoplayTimeout: parseInt($carousel.data('autoplay-timeout')),
+          nav: $carousel.data('show-nav'),
+          dots: $carousel.data('show-dots'),
+          navText: [
+            '<i class="material-icons">chevron_left</i>',
+            '<i class="material-icons">chevron_right</i>'
+          ],
+          responsive:{
+            0:{ items: parseInt($carousel.data('mobile')) || 1 },
+            600:{ items: parseInt($carousel.data('tablet')) || 2 },
+            991:{ items: parseInt($carousel.data('desktop')) || 3 }
+          }
+        });
+      }
+    });
+    </script>
+    <?php
+    return ob_get_clean();
+}
+register_block_type('web-advisor/latest-blog-posts', ['render_callback' => 'web_advisor_render_latest_blog_posts']);
+
+
 
 require plugin_dir_path(__FILE__) . 'plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
