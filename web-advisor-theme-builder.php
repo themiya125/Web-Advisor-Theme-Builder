@@ -3,10 +3,10 @@
  * Plugin Name: Web Advisor Theme Builder
  * Description: Web Advisor Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
  *
- * Version: 1.7.4
+ * Version: 1.7.5
  * Author: Themiya Jayakodi
  * Author URI: https://webadvisorlk.com/
- * Plugin URI: https://github.com/themidev/web-advisor-theme-builder
+ * Plugin URI: https://github.com/themiya125/Web-Advisor-Theme-Builder
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: web-advisor-theme-builder
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * License API URL & secret (must match your license-api.php)
  */
-define('WAB_LICENSE_API_URL', 'https://webadvisorlk.com/license-api.php'); 
+define('WAB_LICENSE_API_URL', 'https://system.webadvisorlk.com/api/license.php'); 
 define('WAB_API_SECRET', 'WEBADVISOR_PRO_2025_SECRET_THEME_BUILDER'); 
 
 /**
@@ -326,6 +326,144 @@ function web_advisor_render_latest_blog_posts($attributes) {
     return ob_get_clean();
 }
 register_block_type('web-advisor/latest-blog-posts', ['render_callback' => 'web_advisor_render_latest_blog_posts']);
+
+
+function webadvisor_register_portfolio_cpt() {
+    register_post_type('portfolio', [
+        'label' => 'Portfolio',
+        'public' => true,
+        'menu_icon' => 'dashicons-portfolio',
+        'supports' => ['title', 'editor', 'thumbnail'],
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'portfolio'],
+        'show_in_rest' => true,
+    ]);
+
+    register_taxonomy('portfolio_category', 'portfolio', [
+        'label' => 'Portfolio Categories',
+        'hierarchical' => true,
+        'rewrite' => ['slug' => 'portfolio-category'],
+        'show_in_rest' => true,
+    ]);
+}
+add_action('init', 'webadvisor_register_portfolio_cpt');
+
+function webadvisor_portfolio_single_shortcode($atts) {
+    global $post;
+
+    // Attributes
+    $atts = shortcode_atts([
+        'id' => '',
+    ], $atts);
+
+    // Detect automatic ID when inside single portfolio
+    if (is_singular('portfolio') && empty($atts['id'])) {
+        $portfolio_id = get_the_ID();
+    } else {
+        $portfolio_id = intval($atts['id']);
+    }
+
+    if (!$portfolio_id) return '<p>No portfolio item found.</p>';
+
+    $title = get_the_title($portfolio_id);
+    $content = apply_filters('the_content', get_post_field('post_content', $portfolio_id));
+    $thumbnail = get_the_post_thumbnail($portfolio_id, 'large');
+    $terms = wp_get_post_terms($portfolio_id, 'portfolio_category');
+
+    $category_list = '';
+    if (!empty($terms)) {
+        $category_list = '<div class="wa-portfolio-cats">';
+        foreach ($terms as $term) {
+            $category_list .= '<span class="wa-cat">' . $term->name . '</span>';
+        }
+        $category_list .= '</div>';
+    }
+
+    ob_start();
+    ?>
+    <div class="wa-single-portfolio">
+        <h1 class="wa-title"><?php echo esc_html($title); ?></h1>
+
+        <div class="wa-thumb">
+            <?php echo $thumbnail; ?>
+        </div>
+
+        <?php echo $category_list; ?>
+
+        <div class="wa-content">
+            <?php echo $content; ?>
+        </div>
+    </div>
+    <?php
+
+    return ob_get_clean();
+}
+add_shortcode('portfolio_single', 'webadvisor_portfolio_single_shortcode');
+
+function webadvisor_render_portfolio_grid($attributes) {
+    // Read attributes
+    $showFilters   = $attributes['showFilters'] ?? true;
+    $viewMoreLabel = $attributes['viewMoreLabel'] ?? 'View More';
+    $viewMoreLink  = $attributes['viewMoreLink'] ?? '/portfolio';
+
+    // Query portfolio posts
+    $query = new WP_Query([
+        'post_type'      => 'portfolio',
+        'posts_per_page' => 6,
+    ]);
+
+    ob_start();
+    ?>
+
+    <div class="wa-portfolio-block">
+
+        <?php if ($showFilters): ?>
+            <div class="wa-portfolio-filters">
+                <button class="filter-btn active" data-category="all">All</button>
+
+                <?php
+                $categories = get_terms(['taxonomy' => 'portfolio_category']);
+                foreach ($categories as $cat):
+                ?>
+                    <button class="filter-btn" data-category="<?php echo esc_attr($cat->slug); ?>">
+                        <?php echo esc_html($cat->name); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="wa-portfolio-grid">
+            <?php while ($query->have_posts()): $query->the_post(); ?>
+                <div class="wa-portfolio-card" data-category="<?php echo esc_attr(wp_get_post_terms(get_the_ID(), 'portfolio_category')[0]->slug ?? ''); ?>">
+
+                    <div class="wa-thumb">
+                        <?php the_post_thumbnail('large'); ?>
+                        <span class="wa-badge">
+                            <?php echo esc_html(wp_get_post_terms(get_the_ID(), 'portfolio_category')[0]->name ?? 'Design'); ?>
+                        </span>
+                    </div>
+
+                    <h4 class="wa-title"><?php the_title(); ?></h4>
+
+                    <a href="<?php the_permalink(); ?>" class="wa-btn">
+                        View Project <span class="material-icons">arrow_forward</span>
+                    </a>
+
+                </div>
+            <?php endwhile; wp_reset_postdata(); ?>
+        </div>
+
+        <div class="wa-loadmore">
+            <a href="<?php echo esc_url($viewMoreLink); ?>" class="wa-more-btn">
+                <?php echo esc_html($viewMoreLabel); ?>
+            </a>
+        </div>
+
+    </div>
+
+    <?php
+    return ob_get_clean();
+}
 
 
 
