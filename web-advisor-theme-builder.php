@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * License API URL & secret (must match your license-api.php)
  */
-define('WAB_LICENSE_API_URL', 'https://system.webadvisorlk.com/api/license.php'); 
+define('WAB_LICENSE_API_URL', 'https://api.webadvisorlk.com/api/license.php'); 
 define('WAB_API_SECRET', 'WEBADVISOR_PRO_2025_SECRET_THEME_BUILDER'); 
 
 /**
