@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@wordpress/scripts": "^30.27.0"
+    "@wordpress/scripts": "^30.27.0",
+    "find-up": "^8.0.0"
   },
   "dependencies": {
     "react-sortablejs": "^6.1.4",

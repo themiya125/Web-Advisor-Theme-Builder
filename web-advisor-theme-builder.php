@@ -3,7 +3,7 @@
  * Plugin Name: Web Advisor Theme Builder
  * Description: Web Advisor Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
  *
- * Version: 1.7.7
+ * Version: 1.7.8
  * Author: Themiya Jayakodi
  * Author URI: https://themidev.com/
  * Plugin URI: https://github.com/themiya125/Web-Advisor-Theme-Builder
@@ -465,6 +465,28 @@ function webadvisor_render_portfolio_grid($attributes) {
     return ob_get_clean();
 }
 
+
+function web_advisor_register_menu_block() {
+    register_block_type( 'web-advisor/menu-block', array(
+        'render_callback' => 'web_advisor_render_menu_block',
+    ) );
+}
+add_action( 'init', 'web_advisor_register_menu_block' );
+
+function web_advisor_render_menu_block( $attributes ) {
+    if ( empty( $attributes['menuId'] ) ) {
+        return '';
+    }
+
+    $alignment = $attributes['alignment'] ?? 'center';
+
+    return wp_nav_menu( array(
+        'menu'            => $attributes['menuId'],
+        'container'       => 'nav',
+        'container_class' => 'themidev-menu align-' . esc_attr( $alignment ),
+        'echo'            => false,
+    ) );
+}
 
 
 require plugin_dir_path(__FILE__) . 'plugin-update-checker/plugin-update-checker.php';

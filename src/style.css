@@ -296,3 +296,11 @@ body{
 .wab-next:hover {
     background-color: rgba(0,0,0,0.8);
 }
+.themidev-menu .menu{
+  display: flex;
+  align-items: center;
+ list-style: none;
+ justify-content: space-between;
+ width: 100%;
+ 
+}
