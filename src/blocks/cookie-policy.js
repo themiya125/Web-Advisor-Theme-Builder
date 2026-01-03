@@ -27,7 +27,7 @@ registerBlockType('web-advisor/cookie-policy', {
         const { position, bgColor, textColor, autoHideTime } = attributes;
 
         const blockProps = useBlockProps({
-            className: 'web-advisor-cookie-block',
+            className: 'themidev-cookie-block',
             style: {
                 border: '2px dashed #0073aa',
                 padding: '20px',

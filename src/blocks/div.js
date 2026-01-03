@@ -104,7 +104,7 @@ registerBlockType('web-advisor/div-block', {
                 padding: '20px',
                 border: '1px dashed #ccc',
             },
-            className: `web-advisor-block-align-${align}`,
+            className: `themidev-align-${align}`,
         });
 
         return (
@@ -171,7 +171,7 @@ registerBlockType('web-advisor/div-block', {
                 backgroundSize: bgSize,
                 backgroundPosition: bgPosition,
             },
-            className: `web-advisor-block-align-${align}`,
+            className: `themidev-align-${align}`,
         });
 
         const inlineStyle = customCSS ? <style>{customCSS}</style> : null;

@@ -46,7 +46,7 @@ registerBlockType('web-advisor/faq-collapse', {
         };
 
         const blockProps = useBlockProps({
-            className: 'web-advisor-faq-collapse',
+            className: 'themidev-faq-collapse',
             style: {
                 border: '1px dashed #ccc',
                 padding: '15px',
@@ -121,7 +121,7 @@ registerBlockType('web-advisor/faq-collapse', {
         const { faqs } = attributes;
 
         const blockProps = useBlockProps.save({
-            className: 'web-advisor-faq-collapse accordion',
+            className: 'themidev-faq-collapse accordion',
             id: 'faqAccordion',
         });
 

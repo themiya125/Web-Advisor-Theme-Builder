@@ -147,7 +147,7 @@ registerBlockType('web-advisor/contact-info', {
         </InspectorControls>
 
         {/* Editor Preview */}
-        <div className="wab-contact-info-preview">
+        <div className="themidev-contact-info-preview">
           {contacts.map((contact, i) => (
             <a
               key={i}
@@ -173,7 +173,7 @@ registerBlockType('web-advisor/contact-info', {
     const blockProps = useBlockProps.save();
 
     return (
-      <div {...blockProps} className="wab-contact-info">
+      <div {...blockProps} className="themidev-contact-info">
         <style>
           {`
             .wab-contact-info a {

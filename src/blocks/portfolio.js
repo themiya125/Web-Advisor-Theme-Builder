@@ -18,7 +18,7 @@ registerBlockType("web-advisor/portfolio-grid", {
 
     edit: ({ attributes, setAttributes }) => {
         const { showFilters, viewMoreLabel, viewMoreLink } = attributes;
-        const blockProps = useBlockProps({ className: "wa-portfolio-block" });
+        const blockProps = useBlockProps({ className: "themidev-portfolio-block" });
 
         const [activeCat, setActiveCat] = useState("all");
         const [filtered, setFiltered] = useState([]);
@@ -95,7 +95,7 @@ registerBlockType("web-advisor/portfolio-grid", {
 
                 {/* === FILTER BUTTONS === */}
                 {showFilters && (
-                    <div className="wa-portfolio-filters">
+                    <div className="themidev-portfolio-filters">
                         <button
                             className={`filter-btn ${activeCat === "all" ? "active" : ""}`}
                             onClick={() => filterByCategory("all")}
@@ -127,7 +127,7 @@ registerBlockType("web-advisor/portfolio-grid", {
                                 "https://via.placeholder.com/600x400";
 
                             return (
-                                <div key={item.id} className="wa-portfolio-card">
+                                <div key={item.id} className="themidev-portfolio-card">
                                     <div className="wa-thumb">
                                         <img src={img} alt={item.title.rendered} />
 

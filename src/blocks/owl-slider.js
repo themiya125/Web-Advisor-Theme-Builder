@@ -66,7 +66,7 @@ registerBlockType('web-advisor/owl-carousel-slide', {
   save: () => {
     const blockProps = useBlockProps.save();
     return (
-      <div {...blockProps} className="wab-owl-slide">
+      <div {...blockProps} className="themidev-owl-slide">
         <InnerBlocks.Content />
       </div>
     );
@@ -106,7 +106,7 @@ registerBlockType('web-advisor/owl-carousel', {
     } = attributes;
 
     const parentBlockProps = useBlockProps({
-      className: 'wab-owl-parent',
+      className: 'themidev-owl-parent',
       style: {
         border: '2px dashed #0073aa',
         padding: '12px',
@@ -220,7 +220,7 @@ registerBlockType('web-advisor/owl-carousel', {
     return (
       <div {...blockProps}>
         <div
-          className="owl-carousel wab-owl-carousel"
+          className="owl-carousel themidev-owl-carousel"
           data-items-desktop={itemsDesktop}
           data-items-tablet={itemsTablet}
           data-items-mobile={itemsMobile}
@@ -239,7 +239,7 @@ registerBlockType('web-advisor/owl-carousel', {
             __html: `
             (function($){
               $(document).ready(function(){
-                $('.wab-owl-carousel').each(function(){
+                $('.themidev-owl-carousel').each(function(){
                   var $carousel = $(this);
                   var desktop = parseInt($carousel.data('items-desktop')) || 3;
                   var tablet = parseInt($carousel.data('items-tablet')) || 2;

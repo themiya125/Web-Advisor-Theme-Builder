@@ -57,7 +57,7 @@ registerBlockType('web-advisor/home-slider', {
         };
 
         return (
-            <div {...useBlockProps()} className="web-advisor-slider-edit">
+            <div {...useBlockProps()} className="themidev-slider-edit">
                 <InspectorControls>
                     <PanelBody title="Slider Settings" initialOpen={true}>
                         {/* Add Slide Button */}
@@ -213,7 +213,7 @@ registerBlockType('web-advisor/home-slider', {
 
                 {/* Editor Preview */}
                 <div
-                    className="web-advisor-slider-preview"
+                    className="themidev-slider-preview"
                     style={{
                         minHeight: '200px',
                         background: '#222',
@@ -286,7 +286,7 @@ registerBlockType('web-advisor/home-slider', {
         return (
             <div {...blockProps}>
                 <div
-                    id="wabBootstrapCarousel"
+                    id="themidevBootstrapCarousel"
                     className={carouselClass}
                     data-bs-ride="carousel"
                     data-bs-interval={autoplayTimeout}
@@ -297,7 +297,7 @@ registerBlockType('web-advisor/home-slider', {
                             <button
                                 key={index}
                                 type="button"
-                                data-bs-target="#wabBootstrapCarousel"
+                                data-bs-target="themidevBootstrapCarousel"
                                 data-bs-slide-to={index}
                                 className={index === 0 ? 'active' : ''}
                                 aria-current={index === 0 ? 'true' : undefined}
@@ -358,14 +358,14 @@ registerBlockType('web-advisor/home-slider', {
                     <button
                         className="carousel-control-prev"
                         type="button"
-                        data-bs-target="#wabBootstrapCarousel"
+                        data-bs-target="#themidevBootstrapCarousel"
                         data-bs-slide="prev"
                         dangerouslySetInnerHTML={{ __html: getPrevIcon() }}
                     />
                     <button
                         className="carousel-control-next"
                         type="button"
-                        data-bs-target="#wabBootstrapCarousel"
+                        data-bs-target="#themidevBootstrapCarousel"
                         data-bs-slide="next"
                         dangerouslySetInnerHTML={{ __html: getNextIcon() }}
                     />

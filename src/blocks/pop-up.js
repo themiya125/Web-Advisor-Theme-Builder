@@ -24,7 +24,7 @@ registerBlockType('web-advisor/popup-banner', {
         const { delayTime, showOnce } = attributes;
 
         const blockProps = useBlockProps({
-            className: 'web-advisor-popup-block',
+            className: 'themidev-pop-up',
             style: {
                 border: '2px dashed #0073aa',
                 padding: '20px',
@@ -80,14 +80,14 @@ registerBlockType('web-advisor/popup-banner', {
         const { delayTime, showOnce } = attributes;
 
         const blockProps = useBlockProps.save({
-            className: 'web-advisor-popup-block',
+            className: 'themidev-pop-up',
         });
 
         return (
             <div {...blockProps}>
                 {/* Popup Dialog */}
                 <div
-                    className="wab-popup-dialog"
+                    className="themidev-pop-up-dialog"
                     tabIndex="-1"
                     role="dialog"
                     style={{
@@ -105,12 +105,12 @@ registerBlockType('web-advisor/popup-banner', {
                         width: '90%',
                     }}
                 >
-                    <div className="wab-popup-content">
+                    <div className="themidev-pop-up-content">
                         <InnerBlocks.Content />
                     </div>
                     <button
                         type="button"
-                        className="wab-popup-close btn-close"
+                        className="themidev-pop-up-close btn-close"
                         style={{
                             position: 'absolute',
                             top: '-20px',

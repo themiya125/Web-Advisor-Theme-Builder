@@ -35,7 +35,7 @@ registerBlockType('web-advisor/latest-blog-posts', {
       autoplayTimeout,
     } = attributes;
 
-    const blockProps = useBlockProps({ className: 'wa-latest-blog' });
+    const blockProps = useBlockProps({ className: 'themidev-latest-blog' });
     const carouselRef = useRef(null);
     const [posts, setPosts] = useState([]);
 
@@ -169,7 +169,7 @@ registerBlockType('web-advisor/latest-blog-posts', {
 
         {posts.length === 0 && <p>Loading latest posts…</p>}
         {posts.length > 0 && (
-          <div className="wa-latest-carousel owl-carousel" ref={carouselRef}>
+          <div className="themidev-latest-carousel owl-carousel" ref={carouselRef}>
             {posts.map((post) => {
               const featured =
                 post?._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
@@ -179,15 +179,15 @@ registerBlockType('web-advisor/latest-blog-posts', {
               const date = new Date(post.date).toLocaleDateString();
 
               return (
-                <article key={post.id} className="wa-blog-card">
+                <article key={post.id} className="themidev-blog-card">
                   <img src={featured} alt={title} />
-                  <div className="wa-card-content">
+                  <div className="themidev-card-content">
                     <h4 dangerouslySetInnerHTML={{ __html: title }}></h4>
-                    <p className="wa-meta">
+                    <p className="themidev-meta">
                       👤 {author} &nbsp; 🗓 {date}
                     </p>
                     <a
-                      className="wa-readmore"
+                      className="themidev-readmore"
                       href={post.link}
                       target="_blank"
                       rel="noopener noreferrer"

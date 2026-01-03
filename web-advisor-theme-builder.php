@@ -5,7 +5,7 @@
  *
  * Version: 1.7.6
  * Author: Themiya Jayakodi
- * Author URI: https://webadvisorlk.com/
+ * Author URI: https://themidev.com/
  * Plugin URI: https://github.com/themiya125/Web-Advisor-Theme-Builder
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt

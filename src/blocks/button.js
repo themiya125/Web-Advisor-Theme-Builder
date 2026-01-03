@@ -111,7 +111,7 @@ registerBlockType('web-advisor/button-block', {
                     href={buttonUrl || '#'}
                     target={isExternal ? '_blank' : undefined}
                     rel={isExternal ? 'noopener noreferrer' : undefined}
-                    className="web-advisor-button"
+                    className="themidev-btn"
                     style={{
                         backgroundColor: bgColor,
                         color: textColor,
