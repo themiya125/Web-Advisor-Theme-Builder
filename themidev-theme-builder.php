@@ -3,7 +3,7 @@
  * Plugin Name: ThemiDev Theme Builder
  * Description: ThemiDev Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
  *
- * Version: 1.7.9
+ * Version: 1.8.0
  * Author: Themiya Jayakodi
  * Author URI: https://themidev.com/
  * Plugin URI: https://github.com/themiya125/Web-Advisor-Theme-Builder
@@ -64,27 +64,26 @@ add_action('enqueue_block_assets', 'themidev_enqueue_frontend_styles');
  */
 function themidev_enqueue_block_assets() {
 
-    wp_enqueue_style(
+    $base = plugins_url( '/', __FILE__ );
+
+     wp_enqueue_style(
         'themidev-bootstrap',
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css',
+        $base . 'assets/bootstrap/css/bootstrap.min.css',
         array(),
         '5.3.8'
     );
 
-    wp_enqueue_script(
+   wp_enqueue_script(
         'themidev-bootstrap',
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js',
+        $base . 'assets/bootstrap/js/bootstrap.min.js',
         array(),
         '5.3.8',
         true
     );
 
-    wp_enqueue_style(
-        'themidev-fontawesome',
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
-        array(),
-        '6.7.2'
-    );
+   wp_enqueue_style( 'themidev-fontawesome', 
+   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', 
+   array(), '6.7.2' );
 
     wp_enqueue_style(
         'themidev-bootstrap-icons',
@@ -100,23 +99,23 @@ function themidev_enqueue_block_assets() {
         null
     );
 
-    wp_enqueue_style(
+      wp_enqueue_style(
         'themidev-owl-carousel',
-        'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css',
+        $base . 'assets/owl-carousel/owl.carousel.min.css',
         array(),
         '2.3.4'
     );
 
     wp_enqueue_style(
         'themidev-owl-theme',
-        'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css',
+        $base . 'assets/owl-carousel/owl.theme.default.min.css',
         array(),
         '2.3.4'
     );
 
     wp_enqueue_script(
         'themidev-owl-carousel',
-        'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js',
+        $base . 'assets/owl-carousel/owl.carousel.min.js',
         array('jquery'),
         '2.3.4',
         true
