@@ -10,8 +10,8 @@ import {
     ToggleControl
 } from '@wordpress/components';
 
-registerBlockType('web-advisor/popup-banner', {
-    title: 'Pop-up Banner Block (Web Advisor)',
+registerBlockType('themidev/popup-banner', {
+    title: 'Pop-up Banner Block (ThemiDev)',
     icon: 'visibility',
     category: 'widgets',
 

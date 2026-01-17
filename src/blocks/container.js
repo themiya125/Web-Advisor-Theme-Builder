@@ -79,8 +79,8 @@ const CustomCSSEditor = ({ value, onChange }) => {
    Container Block Registration
 ----------------------------- */
 
-registerBlockType('web-advisor/container-block', {
-    title: 'Container Block (Web Advisor)',
+registerBlockType('themidev/container-block', {
+    title: 'Container Block (ThemiDev)',
     icon: 'screenoptions',
     category: 'layout',
     attributes: {

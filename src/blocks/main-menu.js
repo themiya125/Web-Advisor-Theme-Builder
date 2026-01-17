@@ -9,8 +9,8 @@ import { PanelBody, SelectControl } from '@wordpress/components';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
-registerBlockType('web-advisor/menu-block', {
-    title: 'Main Menu (Web Advisor)',
+registerBlockType('themidev/menu-block', {
+    title: 'Main Menu (ThemiDev)',
     icon: 'menu',
     category: 'layout',
     attributes: {

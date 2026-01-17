@@ -18,8 +18,8 @@ const COLORS = [
     { name: 'White', color: '#ffffff' },
 ];
 
-registerBlockType('web-advisor/button-block', {
-    title: 'Button Block (Web Advisor)',
+registerBlockType('themidev/button-block', {
+    title: 'Button Block (ThemiDev)',
     icon: 'button',
     category: 'layout',
     attributes: {

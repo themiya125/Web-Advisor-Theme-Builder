@@ -18,11 +18,11 @@ import { Fragment } from '@wordpress/element';
 /* ---------------------------
    Child: owl-carousel-slide
 --------------------------- */
-registerBlockType('web-advisor/owl-carousel-slide', {
+registerBlockType('themidev/owl-carousel-slide', {
   title: 'Owl Slide',
   icon: 'format-image',
   category: 'layout',
-  parent: ['web-advisor/owl-carousel'],
+  parent: ['themidev/owl-carousel'],
   supports: { reusable: false },
   edit: () => {
     const blockProps = useBlockProps({
@@ -55,7 +55,7 @@ registerBlockType('web-advisor/owl-carousel-slide', {
               'core/button',
               'core/list',
               'core/cover',
-              'web-advisor/div-block',
+              'themidev/div-block',
             ]}
             templateLock={false}
           />
@@ -76,8 +76,8 @@ registerBlockType('web-advisor/owl-carousel-slide', {
 /* ---------------------------
    Parent: owl-carousel
 --------------------------- */
-registerBlockType('web-advisor/owl-carousel', {
-  title: 'Owl Carousel Slider (Web Advisor)',
+registerBlockType('themidev/owl-carousel', {
+  title: 'Owl Carousel Slider (ThemiDev)',
   icon: 'images-alt2',
   category: 'layout',
   attributes: {
@@ -189,7 +189,7 @@ registerBlockType('web-advisor/owl-carousel', {
           }}
         >
           <InnerBlocks
-            allowedBlocks={['web-advisor/owl-carousel-slide']}
+            allowedBlocks={['themidev/owl-carousel-slide']}
             templateLock={false}
             renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
           />

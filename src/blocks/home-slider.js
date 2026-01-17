@@ -19,8 +19,8 @@ import { Fragment } from '@wordpress/element';
    Home Page Slider Block
 ----------------------------- */
 
-registerBlockType('web-advisor/home-slider', {
-    title: 'Home Page Slider (Web Advisor)',
+registerBlockType('themidev/home-slider', {
+    title: 'Home Page Slider (ThemiDev)',
     icon: 'images-alt2',
     category: 'layout',
     attributes: {
@@ -257,8 +257,8 @@ registerBlockType('web-advisor/home-slider', {
         // Determine carousel classes based on transition effect
         const carouselClass =
             transitionEffect === 'fade'
-                ? 'web-advisor-slider carousel slide carousel-fade'
-                : 'web-advisor-slider carousel slide';
+                ? 'themidev-slider carousel slide carousel-fade'
+                : 'themidev-slider carousel slide';
 
         // Icon HTML based on style
         const getPrevIcon = () => {

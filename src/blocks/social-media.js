@@ -13,8 +13,8 @@ import {
 } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 
-registerBlockType('web-advisor/social-media-block', {
-    title: 'Social Media Block (Web Advisor)',
+registerBlockType('themidev/social-media-block', {
+    title: 'Social Media Block (ThemiDev)',
     icon: 'share',
     category: 'design',
     attributes: {

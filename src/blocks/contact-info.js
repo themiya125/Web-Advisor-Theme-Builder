@@ -13,8 +13,8 @@ import {
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
-registerBlockType('web-advisor/contact-info', {
-  title: 'Contact Info Block (Web Advisor)',
+registerBlockType('themidev/contact-info', {
+  title: 'Contact Info Block (ThemiDev)',
   icon: 'phone',
   category: 'widgets',
 

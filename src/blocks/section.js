@@ -79,8 +79,8 @@ const CustomCSSEditor = ({ value, onChange }) => {
    Section Block Registration
 ----------------------------- */
 
-registerBlockType('web-advisor/section-block', {
-    title: 'Section Block (Web Advisor)',
+registerBlockType('themidev/section-block', {
+    title: 'Section Block (ThemiDev)',
     icon: 'welcome-write-blog',
     category: 'layout',
     attributes: {

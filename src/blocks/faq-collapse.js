@@ -14,8 +14,8 @@ import { Fragment } from '@wordpress/element';
    FAQ Collapse Block (Web Advisor)
 ----------------------------- */
 
-registerBlockType('web-advisor/faq-collapse', {
-    title: 'FAQ Collapse (Web Advisor)',
+registerBlockType('themidev/faq-collapse', {
+    title: 'FAQ Collapse (ThemiDev)',
     icon: 'editor-help',
     category: 'widgets',
     attributes: {

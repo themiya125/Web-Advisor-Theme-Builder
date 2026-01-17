@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 import $ from 'jquery';
 import { __ } from '@wordpress/i18n';
 
-registerBlockType('web-advisor/latest-blog-posts', {
-  title: __('Latest Blog Posts (Web Advisor)', 'web-advisor'),
+registerBlockType('themidev/latest-blog-posts', {
+  title: __('Latest Blog Posts (ThemiDev)', 'themidev'),
   icon: 'slides',
   category: 'widgets',
   attributes: {

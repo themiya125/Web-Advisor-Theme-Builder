@@ -21,8 +21,8 @@ const iconLibraries = [
     { label: 'Material Icons', value: 'material' },
 ];
 
-registerBlockType('web-advisor/icon-block', {
-    title: 'Icon Block (Web Advisor)',
+registerBlockType('themidev/icon-block', {
+    title: 'Icon Block (ThemiDev)',
     icon: 'star-filled',
     category: 'widgets',
     attributes: {

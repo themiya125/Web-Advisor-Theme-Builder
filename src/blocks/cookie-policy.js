@@ -11,8 +11,8 @@ import {
     ColorPalette
 } from '@wordpress/components';
 
-registerBlockType('web-advisor/cookie-policy', {
-    title: 'Cookie Policy Block (Web Advisor)',
+registerBlockType('themidev/cookie-policy', {
+    title: 'Cookie Policy Block (ThemiDev)',
     icon: 'shield',
     category: 'widgets',
 
@@ -113,7 +113,7 @@ registerBlockType('web-advisor/cookie-policy', {
         const { position, bgColor, textColor, autoHideTime } = attributes;
 
         const blockProps = useBlockProps.save({
-            className: `web-advisor-cookie-block position-${position}`,
+            className: `themidev-cookie-block position-${position}`,
         });
 
         return (

@@ -79,8 +79,8 @@ const CustomCSSEditor = ({ value, onChange }) => {
    Div Block Registration
 ----------------------------- */
 
-registerBlockType('web-advisor/div-block', {
-    title: 'Div Block (Web Advisor)',
+registerBlockType('themidev/div-block', {
+    title: 'Div Block (ThemiDev)',
     icon: 'editor-code',
     category: 'layout',
     attributes: {
