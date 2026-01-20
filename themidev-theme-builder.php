@@ -3,7 +3,7 @@
  * Plugin Name: ThemiDev Theme Builder
  * Description: ThemiDev Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
  *
- * Version: 1.8.0
+ * Version: 1.8.1
  * Author: Themiya Jayakodi
  * Author URI: https://themidev.com/
  * Plugin URI: https://github.com/themiya125/Web-Advisor-Theme-Builder
@@ -178,29 +178,6 @@ register_block_type('themidev/latest-blog-posts', [
     'render_callback' => 'themidev_render_latest_blog_posts'
 ]);
 
-/**
- * Portfolio CPT
- */
-function themidev_register_portfolio_cpt() {
-
-    register_post_type('portfolio', [
-        'label' => 'Portfolio',
-        'public' => true,
-        'menu_icon' => 'dashicons-portfolio',
-        'supports' => ['title', 'editor', 'thumbnail'],
-        'has_archive' => true,
-        'rewrite' => ['slug' => 'portfolio'],
-        'show_in_rest' => true,
-    ]);
-
-    register_taxonomy('portfolio_category', 'portfolio', [
-        'label' => 'Portfolio Categories',
-        'hierarchical' => true,
-        'rewrite' => ['slug' => 'portfolio-category'],
-        'show_in_rest' => true,
-    ]);
-}
-add_action('init', 'themidev_register_portfolio_cpt');
 
 /**
  * Menu Block
