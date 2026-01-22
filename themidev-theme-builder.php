@@ -3,7 +3,7 @@
  * Plugin Name: ThemiDev Theme Builder
  * Description: ThemiDev Theme Builder is a powerful custom Gutenberg extension designed to help developers and designers build modern, dynamic WordPress layouts visually. It includes multiple advanced custom blocks such as a Bootstrap-based Hero Slider, Font Awesome Social Media Block, Pop-up Modal Banner, and an Owl Carousel with fully responsive controls. Each block supports flexible customization, inner block nesting, and dynamic styling options — enabling you to create professional page sections, sliders, and modals effortlessly within the block editor.
  *
- * Version: 1.8.1
+ * Version: 1.8.2
  * Author: Themiya Jayakodi
  * Author URI: https://themidev.com/
  * Plugin URI: https://github.com/themiya125/Web-Advisor-Theme-Builder
